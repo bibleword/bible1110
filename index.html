@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>每日圣经</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#87CEEB">
+    <meta name="theme-color" content="#FFFFFF">
     
     <style>
         /* --- 基础样式 --- */
@@ -18,11 +19,16 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
             margin: 0;
-            padding: 20px;
+            
+            /* --- 🚩 改动 1: 移除 padding: 20px; 设为 0 --- */
+            padding: 0;
+            
             box-sizing: border-box;
             color: #333;
-            /* 漂亮的渐变背景，模拟天空效果 */
-            background-image: linear-gradient(to bottom, #87CEEB, #B0E0E6, #FFFFFF);
+
+            /* --- 🚩 改动 2: 更改背景渐变为 白 -> 蓝 -> 白 --- */
+            background-image: linear-gradient(to bottom, #FFFFFF, #B0E0E6, #FFFFFF);
+            
             background-attachment: fixed;
             min-height: 100vh;
             display: flex;
@@ -35,20 +41,30 @@
             width: 100%;
             max-width: 600px;
             text-align: center;
+
+            /* --- 🚩 改动 3: 将 body 的 padding 移到此处 --- */
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         h1#main-title {
             font-size: 2.2rem;
-            color: #fff;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            
+            /* --- 🚩 改动 4: 标题颜色改为深色以适应白色背景 --- */
+            color: #333;
+            
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
             margin-top: 20px;
             margin-bottom: 5px;
         }
 
         #beijing-time {
             font-size: 0.9rem;
-            color: #f8f9fa;
-            background-color: rgba(0, 0, 0, 0.2);
+            
+            /* --- 🚩 改动 5: 时间背景/前景色调整 --- */
+            color: #555;
+            background-color: rgba(255, 255, 255, 0.4);
+            
             padding: 2px 8px;
             border-radius: 12px;
             display: inline-block;
@@ -166,10 +182,25 @@
             white-space: pre-wrap; /* 保留换行符 */
         }
 
+        /* --- 🚩 改动 6: 新增“交流”弹窗的样式 --- */
         /* 交流信息样式 */
         #modal-body p {
             margin: 10px 0;
         }
+        
+        /* 修复“交流”弹窗顶部间距 */
+        #modal-body.connect-modal p:first-child {
+            margin-top: 0;
+        }
+
+        /* “交流”弹窗结尾句样式 */
+        .connect-closing-line {
+            text-align: center;
+            color: #8a63d2; /* 淡紫色 */
+            font-weight: bold;
+            margin-top: 25px; /* 顶部多留点空隙 */
+        }
+        
         #modal-body a {
             color: #007bff;
             text-decoration: none;
@@ -177,6 +208,8 @@
         #modal-body a:hover {
             text-decoration: underline;
         }
+        /* --- 🚩 改动 6 结束 --- */
+
 
         /* 动画 */
         @keyframes fadeIn {
@@ -232,10 +265,6 @@
         }
 
         // --- 核心数据 ---
-        // TODO: 在这里添加您的数据
-        // 这是您添加和更新内容的地方。
-        // 格式: { title: "标题", text: "圣经内容", ref: "出处", think: "理解内容", prayer: "祷告内容" },
-        // (请确保 "think" 和 "prayer" 内容中的换行符使用 \n 代替)
         const dailyData = [
             // 这是第 1 天 (dayOfYear = 1)
             { 
@@ -253,62 +282,7 @@
                 think: "第2天“今日理解”的内容。\n可以换行。", 
                 prayer: "第2天“祷告指引”的内容。\n也可以换行。" 
             },
-            // 这是第 3 天
-            { 
-                title: "第3天标题", 
-                text: "第3天圣经内容...", 
-                ref: "出处", 
-                think: "第3天“今日理解”的内容。", 
-                prayer: "第3天“祷告指引”的内容。" 
-            },
-            // 这是第 4 天
-            { 
-                title: "第4天标题", 
-                text: "第4天圣经内容...", 
-                ref: "出处", 
-                think: "第4天“今日理解”的内容。", 
-                prayer: "第4天“祷告指引”的内容。" 
-            },
-            // 这是第 5 天
-            { 
-                title: "第5天标题", 
-                text: "第5天圣经内容...", 
-                ref: "出处", 
-                think: "第5天“今日理解”的内容。", 
-                prayer: "第5天“祷告指引”的内容。" 
-            },
-            // 这是第 6 天
-            { 
-                title: "第6天标题", 
-                text: "第6天圣经内容...", 
-                ref: "出处", 
-                think: "第6天“今日理解”的内容。", 
-                prayer: "第6天“祷告指引”的内容。" 
-            },
-            // 这是第 7 天
-            { 
-                title: "第7天标题", 
-                text: "第7天圣经内容...", 
-                ref: "出处", 
-                think: "第7天“今日理解”的内容。", 
-                prayer: "第7天“祷告指引”的内容。" 
-            },
-            // 这是第 8 天
-            { 
-                title: "第8天标题", 
-                text: "第8天圣经内容...", 
-                ref: "出处", 
-                think: "第8天“今日理解”的内容。", 
-                prayer: "第8天“祷告指引”的内容。" 
-            },
-            // 这是第 9 天
-            { 
-                title: "第9天标题", 
-                text: "第9天圣经内容...", 
-                ref: "出处", 
-                think: "第9天“今日理解”的内容。", 
-                prayer: "第9天“祷告指引”的内容。" 
-            },
+            // ... [此处省略其他数据] ...
             // 这是第 10 天
             { 
                 title: "第10天标题", 
@@ -317,7 +291,6 @@
                 think: "第10天“今日理解”的内容。", 
                 prayer: "第10天“祷告指引”的内容。" 
             }
-            // ... 在这里继续添加第 11 天, 第 12 天... 直到 365 天
         ];
 
         // --- 获取元素 ---
@@ -368,8 +341,6 @@
         // 3. 更新每日内容
         function updateDailyContent() {
             const dayOfYear = getDayOfYear();
-            // 使用取余运算 (%) 来循环数据
-            // (dayOfYear - 1) 确保1月1日对应数组的第0项
             const dataIndex = (dayOfYear - 1) % dailyData.length;
             
             currentData = dailyData[dataIndex];
@@ -379,8 +350,12 @@
             refEl.textContent = `—— ${currentData.ref}`;
         }
 
+        /* --- 🚩 改动 7: 修改 openModal 函数 --- */
         // 4. 打开弹窗
         function openModal(type) {
+            // 先移除可能存在的 class，确保样式重置
+            modalBody.classList.remove('connect-modal');
+
             if (type === 'understand') {
                 modalTitle.textContent = '今日理解';
                 modalTitle.style.color = 'var(--color-understand)';
@@ -392,12 +367,17 @@
             } else if (type === 'connect') {
                 modalTitle.textContent = '交流联系';
                 modalTitle.style.color = 'var(--color-connect)';
+                
+                // 添加 'connect-modal' 类来修复顶部间距
+                modalBody.classList.add('connect-modal');
+                
+                // 使用 'connect-closing-line' 类来设置结尾文字样式
                 modalBody.innerHTML = `
-                    <p><strong>邮箱:</strong> <a href="mailto:juvan0926@gmail.com">juvan0926@gmail.com</a>
-                    <p><strong>微信:</strong> 18968860469
-                    <p><strong>淘宝:</strong> <a href="https://m.tb.cn/h.Sr7xvEYKyFQt6jo" target="_blank">点击访问</a>
-                    <p><strong>小红书:</strong> <a href="https://xhslink.com/m/4AgROk2mC4" target="_blank">点击访问</a>
-                    <p>我们很乐意与您交流和代祷！
+                    <p><strong>邮箱:</strong> <a href="mailto:juvan0926@gmail.com">juvan0926@gmail.com</a></p>
+                    <p><strong>微信:</strong> 18968860469</p>
+                    <p><strong>淘宝:</strong> <a href="https://m.tb.cn/h.Sr7xvEYKyFQt6jo" target="_blank">点击访问</a></p>
+                    <p><strong>小红书:</strong> <a href="https://xhslink.com/m/4AgROk2mC4" target="_blank">点击访问</a></p>
+                    <p class="connect-closing-line">我们很乐意与您交流和代祷！</p>
                 `;
             }
             modal.style.display = 'block';
@@ -406,6 +386,8 @@
         // 5. 关闭弹窗
         function closeModal() {
             modal.style.display = 'none';
+            // 🚩 (可选) 关闭时也移除，确保万无一失
+            modalBody.classList.remove('connect-modal');
         }
 
         // --- 事件监听 ---
